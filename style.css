@@ -1,10 +1,14 @@
 body{
-    background-color:aquamarine;
+    
+    background: linear-gradient(to bottom, #4facfe, #00f2fe);
      display: flex;
     flex-direction: column  ;
     justify-content: center;
     align-items: center;
-    gap: 300px;
+    gap: 350px;
+
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 
     
 }
@@ -17,18 +21,45 @@ h1{
     padding: 20px;
     border-radius: 15px;
     text-shadow: 2px 2px red;
+    width: 80%;
     
 
     
 }
 .button{
-    background-color:rgb(20, 130, 255);
+    background-color:#00f2fe;
     opacity: 0.8;
-    color:white;
+    color:rgb(13, 89, 242);
     padding: 10px 20px;
     border: 2px solid rgb(245, 200, 19);
     border-radius:12px;
     cursor:pointer;
-    font-size:24px;
+    font-size:30px;
     text-align: center;
+    width: 250px;
+    height: 100px;
+    text-shadow: 1px 1px black;
+
+    
 }
+.button:hover{
+    background-color:rgb(255, 255, 255);
+    color:rgb(13, 89, 242);
+    border: 2px solid rgb(245, 200, 19);
+    text-shadow: 1px 1px black;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+} 
+.sparkle{
+    position: absolute;
+    font-size: 100px;
+    z-index: -1;
+    transition: all 0.5s ease;
+
+    animation: 5s linear 0s infinite running myscale;
+
+}  
+@keyframes myscale {
+      50%{transform: scale(1.5, 1.5);}
+}
+    
