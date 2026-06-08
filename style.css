@@ -56,10 +56,51 @@ h1{
     z-index: -1;
     transition: all 0.5s ease;
 
-    animation: 5s linear 0s infinite running myscale;
+    animation: 4s linear 0s infinite running myscale;
 
 }  
 @keyframes myscale {
       50%{transform: scale(1.5, 1.5);}
+}
+.hidden{
+    display: none;
+}
+.grass{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background-color: rgb(34, 177, 76);
+}
+.pillar{
+    position: absolute;
+    
+    z-index: 1;
+
+    width: 100px;
+    height: 300px;
+
+    
+}
+
+.cloud{
+    position: absolute;
+    font-size: 100px;
+    z-index: -1;
+    transition: all 0.5s ease;
+    background-repeat: no-repeat;
+
+    animation: 15s linear 0s infinite running cl;
+
+}
+@keyframes cl {
+      from{transform: translateX(100%);}
+      to{transform: translateX(-100%);}
+}
+.birdplay{
+    position:absolute;
+    font-size: 80px;
+    z-index: 2;
+   
 }
     
