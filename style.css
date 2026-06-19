@@ -78,7 +78,8 @@ h1{
     z-index: 1;
 
     width: 100px;
-    height: 300px;
+    height: 325px;
+    object-fit: cover;
 
     
 }
@@ -99,8 +100,28 @@ h1{
 }
 .birdplay{
     position:absolute;
-    font-size: 80px;
+    width: 65px;
+    height: 65px;
     z-index: 2;
    
+}
+
+.birdplay img{
+    width: 250%;
+    height: 250%;
+    object-fit: contain;
+}
+.score{
+    position:absolute;
+    top: 20px;
+    font-size: 40px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 10px 30px;
+    border-radius: 10px;
+    z-index: 10;
+    text-shadow: 2px 2px black;
 }
     
