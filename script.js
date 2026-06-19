@@ -2,13 +2,22 @@
 
 let obstacles =[];
 
-let birdy = 250;
+let birdy = 150;
 let birdvelocity = 0.5;
+
+let gameSpeed = 0.5;
 
 let score = 0;
 let scoredisplay = null;
 
 let highScore = localStorage.getItem("flappyHighScore") ? parseInt(localStorage.getItem("flappyHighScore")) : 0;
+
+let isGameOver = false;
+
+const bgMusic = new Audio('meow.m4a');
+bgMusic.loop = true;
+
+const crash = new Audio('hehe.mp3');
 
 function createSparkles(count){
       for(let i=0;i<count; i++){
@@ -35,6 +44,10 @@ const myButton = document.getElementById('myButton');
 const bird = document.getElementById('Bird');
 
 myButton.addEventListener('click', function(){
+
+  bgMusic.currentTime =0;
+  bgMusic.play().catch(e => console.log("Audio waiting for user interaction layer."));
+
     bird.classList.add('hidden');
     myButton.classList.add('hidden');
 
@@ -149,10 +162,13 @@ for (let i = 0; i < noOfObstacles; i++) {
 
     const activeBirdNow = document.querySelector('.birdplay');
 
+    if (isGameOver) return;
+
+    gameSpeed += 0.00005;
     obstacles.forEach(pair => {
 
-        pair.groundX = pair.groundX - 0.5;
-        pair.skyX = pair.skyX - 0.5;
+        pair.groundX = pair.groundX - gameSpeed;
+        pair.skyX = pair.skyX - gameSpeed;
 
           if (pair.groundX < -20) {
 
@@ -201,7 +217,7 @@ for (let i = 0; i < noOfObstacles; i++) {
 
     if(activeBirdNow){
         const birdRect = activeBirdNow.getBoundingClientRect()
-        const padding = 35;
+        const padding = 20;
 
         const groundRect = pair.groundElement.getBoundingClientRect();
             const hitGround = (
@@ -221,18 +237,38 @@ for (let i = 0; i < noOfObstacles; i++) {
 
 
         if(hitGround || hitSky){
+          isGameOver = true;
+          bgMusic.pause();
+          crash.play();
 
+          const goImg = document.createElement('img');
+                goImg.src = 'over.jpg'; 
+                goImg.style = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:9999; width:350px; border-radius:12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);pointer-events:none;';
+                document.body.appendChild(goImg);
+
+           const scoreBox = document.createElement('div');
+                scoreBox.style = 'position:fixed; top:65%; left:50%; transform:translate(-50%, -50%); z-index:9999; background:rgba(44, 62, 80, 0.95); color:white; padding:12px 28px; font-family:sans-serif; font-weight:bold; font-size:20px; border-radius:30px; text-align:center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);';     
+
+               
           if(score > highScore){
             localStorage.setItem("flappyHighScore", score);
-            alert(`🎉 NEW HIGH RECORD: ${score}!`);
+            scoreBox.innerHTML = `NEW HIGH RECORD: ${score}!`;
           }
           else{
-            alert("Game Over! Try Again.");
-            window.location.reload();
+            scoreBox.innerHTML = `Final Score: ${score}`;
           }
-          window.location.reload();
-        }
+          document.body.appendChild(scoreBox);
+
+          setTimeout(() => { 
+            window.location.reload();
+            }, 3000);
+
+            return;
+          }
+          
     }
+  
+    
 
      });
 
@@ -246,8 +282,34 @@ for (let i = 0; i < noOfObstacles; i++) {
 
     let floorlimit = window.innerHeight - 180;
     if(birdy > floorlimit){
-      alert("Game Over! You crashed into the ground!");
-        window.location.reload();
+      isGameOver = true;
+      bgMusic.pause();
+      crash.play();
+
+      const goImg = document.createElement('img');
+                goImg.src = 'over.jpg'; 
+                goImg.style = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:9999; width:350px; border-radius:12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5);pointer-events:none;';
+                document.body.appendChild(goImg);
+
+      const scoreBox = document.createElement('div');
+                scoreBox.style = 'position:fixed; top:65%; left:50%; transform:translate(-50%, -50%); z-index:9999; background:rgba(44, 62, 80, 0.95); color:white; padding:12px 28px; font-family:sans-serif; font-weight:bold; font-size:20px; border-radius:30px; text-align:center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);';          
+
+             
+       if(score > highScore){
+        highScore = score;
+      localStorage.setItem("flappyHighScore", score);
+        scoreBox.innerHTML = `NEW HIGH RECORD: ${score}!`;
+       }
+       else{
+        scoreBox.innerHTML = `Crashed into the ground! Score: ${score}`;
+       }
+
+       document.body.appendChild(scoreBox);
+       setTimeout(() => {
+           window.location.reload();
+       }, 3000);
+      
+
         return;
     }
 
@@ -260,7 +322,12 @@ for (let i = 0; i < noOfObstacles; i++) {
 
  document.onkeydown = function(event) {
     if (event.key === ' ' || event.code === 'Space') {
-        event.preventDefault(); 
+      event.preventDefault(); 
+
+      if (isGameOver) return;
+
+
+        
         birdvelocity = -7;      
         console.log("Flap triggered! Velocity is now:", birdvelocity);
     }
