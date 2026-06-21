@@ -217,7 +217,7 @@ for (let i = 0; i < noOfObstacles; i++) {
 
     if(activeBirdNow){
         const birdRect = activeBirdNow.getBoundingClientRect()
-        const padding = 20;
+        const padding = 25;
 
         const groundRect = pair.groundElement.getBoundingClientRect();
             const hitGround = (
